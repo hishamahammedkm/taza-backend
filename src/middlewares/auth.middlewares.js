@@ -5,8 +5,6 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken";
 
 export const verifyJWT = asyncHandler(async (req, res, next) => {
-  console.log("middle 1");
-
   const token =
     req.cookies?.accessToken ||
     req.header("Authorization")?.replace("Bearer ", "");
@@ -17,11 +15,11 @@ export const verifyJWT = asyncHandler(async (req, res, next) => {
 
   try {
     const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-    console.log("decodedToken---", decodedToken);
+    // console.log("decodedToken--- from api", decodedToken);
     const user = await User.findOne({ id: decodedToken?.sub }).select(
       "-password -refreshToken -emailVerificationToken -emailVerificationExpiry"
     );
-    console.log("user---", user);
+    // console.log("user---", user);
     if (!user) {
       // Client should make a request to /api/v1/users/refresh-token if they have refreshToken present in their cookie
       // Then they will get a new access token which will allow them to refresh the access token without logging out the user

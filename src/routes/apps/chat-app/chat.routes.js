@@ -5,6 +5,7 @@ import {
   createOrGetAOneOnOneChat,
   deleteGroupChat,
   deleteOneOnOneChat,
+  get_id,
   getAllChats,
   getGroupChatDetails,
   leaveGroupChat,
@@ -27,6 +28,7 @@ router.use(verifyJWT);
 router.route("/").get(getAllChats);
 
 router.route("/users").get(searchAvailableUsers);
+router.route("/_id/:id").get(get_id);
 
 router
   .route("/c/:receiverId")

@@ -63,7 +63,8 @@ const initializeSocketIO = (io) => {
 
       const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET); // decode the token
 
-      const user = await User.findById(decodedToken?._id).select(
+      // console.log("decodedToken from socket+++---", decodedToken);
+      const user = await User.findOne({ id: decodedToken?.sub }).select(
         "-password -refreshToken -emailVerificationToken -emailVerificationExpiry"
       );
 

@@ -214,6 +214,24 @@ const createOrGetAOneOnOneChat = asyncHandler(async (req, res) => {
     .status(201)
     .json(new ApiResponse(201, payload, "Chat retrieved successfully"));
 });
+const get_id = asyncHandler(async (req, res) => {
+  console.log("Hit route---");
+
+  const { id } = req.params;
+  console.log("Hit route id---", id);
+  // seled only email
+
+  const user = await User.findOne({ id }, { id: 1 });
+  console.log("Hit route---", user);
+
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, user, "User received successfully"));
+});
 
 const createAGroupChat = asyncHandler(async (req, res) => {
   const { name, participants } = req.body;
@@ -638,6 +656,7 @@ const getAllChats = asyncHandler(async (req, res) => {
 });
 
 export {
+  get_id,
   addNewParticipantInGroupChat,
   createAGroupChat,
   createOrGetAOneOnOneChat,
