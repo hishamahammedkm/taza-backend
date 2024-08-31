@@ -221,8 +221,7 @@ const get_id = asyncHandler(async (req, res) => {
   console.log("Hit route id---", id);
   // seled only email
 
-  const user = await User.findOne({ id }, { id: 1 });
-  console.log("Hit route---", user);
+  const user = await User.findOne({ id }, { id: 1, username: 1 });
 
   if (!user) {
     throw new ApiError(404, "User not found");
