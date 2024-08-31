@@ -49,7 +49,7 @@ const listenForChanges = () => {
     .on(
       "postgres_changes",
       {
-        event: "*", // Listen to all events, you can specify "INSERT", "UPDATE", etc.
+        event: "UPDATE", // Listen to all events, you can specify "INSERT", "UPDATE", etc.
         schema: "public",
         table: "user_profile",
       },
@@ -57,7 +57,7 @@ const listenForChanges = () => {
         try {
           console.log("Change detected:", payload);
 
-          const { email, id } = payload.new;
+          const { email, id, name } = payload.new;
 
           const existedUser = await User.findOne({
             $or: [{ id: id }, { email }],
@@ -69,8 +69,8 @@ const listenForChanges = () => {
           const user = await User.create({
             id: id,
             email,
-            password: "12345678",
-            username: email,
+            password: "No password",
+            username: name,
           });
           await user.save();
         } catch (error) {
